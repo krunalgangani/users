@@ -16,7 +16,7 @@ exports.createUser = async (req, res) => {
         return res.status(status.BAD_REQUEST).send(response.message.BAD_REQUEST)
 
     const StateExist = await State.findOne({ _id: req.body.state_id })
-    if (!StateExist?._id)
+    if (!StateExist?._id && StateExist?.country_id == req.body.country_id)
         return res.status(status.BAD_REQUEST).send(response.message.BAD_REQUEST)
     return User.create(req.body)
         .then(() => res.status(status.CREATED).send(response.message.CREATED))
@@ -53,7 +53,7 @@ exports.updateUser = async (req, res) => {
         return res.status(status.BAD_REQUEST).send(response.message.BAD_REQUEST)
 
     const StateExist = await State.findOne({ _id: state_id })
-    if (!StateExist?._id)
+    if (!StateExist?._id && StateExist?.country_id == req.body.country_id)
         return res.status(status.BAD_REQUEST).send(response.message.BAD_REQUEST)
 
     return User.findByIdAndUpdate(_id, updateObj)
